@@ -1,4 +1,4 @@
-function [varZ, Z, localStateVectors] = getLocalStatesConOpt(N, xi, xi2, heightGridSize)
+function [varZ, Z, localStateVectors] = getLocalStatesConOpt(N, xi, xi2, heightGridSize, overwriteFlag, filelabel)
 
 %region
 %{
@@ -8,8 +8,8 @@ throughout Z.
 %endregion - doc
 
 % Checks to see if the file exists, will make if not
-filename = ['savedLocalStatesConOpt/',num2str(N), '_', num2str(heightGridSize), '.mat'];
-if isfile(filename)
+filename = ['savedLocalStatesConOpt/',num2str(N), '_heightGridSize', num2str(heightGridSize), '_', filelabel,'.mat'];
+if (isfile(filename) & ~overwriteFlag)
     M                 = load(filename);
     varZ              = M.varZ;
     Z                 = M.Z;
@@ -17,6 +17,7 @@ if isfile(filename)
 else
         
     heightGrid = linspace(0.01, max(eig(xi)), heightGridSize);
+    % heightGrid = linspace(0.18, 0.22, heightGridSize);
     heightGridSpacing = heightGrid(2) - heightGrid(1);
 
     % initialize arrays to hold spread, Z, and the vectors
@@ -39,7 +40,7 @@ else
         prob = optimproblem("ObjectiveSense","min");
         k = optimvar('k',length(xi));
         prob.Objective = k'*xi2*k;
-        options = optimoptions(@fmincon, 'MaxFunctionEvaluations',1e10);
+        options = optimoptions(@fmincon, 'MaxFunctionEvaluations',1e5);
 
         % define the normalization constraint
         prob.Constraints.cons1 = k'*k == 1;
@@ -48,6 +49,8 @@ else
         prob.Constraints.cons2 = k'*xi*k >= heightGrid(i);
         prob.Constraints.cons3 = ...
             k'*xi*k <= heightGrid(i) + heightGridSpacing;
+        % prob.Constraints.cons3 = ...
+        %     k'*xi*k <= heightGrid(i) + 0.1;
 
         % solve the problem
         [sol, ~, exitflag, ~] = solve(prob, x0, 'Options', options);

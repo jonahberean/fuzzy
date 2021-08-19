@@ -1,10 +1,12 @@
-function sphHarmonicMatrices = getSphericalHarmonicMatrices(N, Jplus)
+function sphHarmonicMatrices = getSphericalHarmonicMatrices(N)
 
 filename = ['savedSphericalHarmonicMatrices/',num2str(N), '.mat'];
 if isfile(filename)
     M                 = load(filename);
     sphHarmonicMatrices = M.sphHarmonicMatrices;
 else    
+
+    [~, ~, ~, ~, Jplus] = computeSu2(N);
 
     sphHarmonicMatrices = zeros(N, N, N, (2 * N - 1));
 

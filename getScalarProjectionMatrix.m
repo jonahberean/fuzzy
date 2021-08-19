@@ -6,6 +6,8 @@ if isfile(filename)
     A              = M.A;
 else
 
+    [J1, J2, J3, Jminus, Jplus] = computeSu2(N);
+
     % rescaling the su(2) generators so as to normalize the fuzzy sphere radius to 1.
     nu     = 2 / sqrt(N^2 - 1);
     J1 = nu*J1;

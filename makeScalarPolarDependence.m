@@ -1,8 +1,7 @@
 
 %
 N = 3;
-[J1, J2, J3,Jminus,Jplus] = getSu2(N);
-A = getScalarProjectionMatrix(N, J1, J2, J3);
+A = getScalarProjectionMatrix(N);
 
 % Compress the height operators into the scalar field subspace
 xi  = A * getHeightOperator(N)     * A';

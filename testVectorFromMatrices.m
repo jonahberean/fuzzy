@@ -1,0 +1,1 @@
+getVectorFromMatrices(rand(3),rand(3),rand(3))

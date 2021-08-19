@@ -1,2 +1,5 @@
 # ignore folders off saved data and figures
 saved*
+# ignore the DS Store files
+.DS_Store
+._.DS_Store

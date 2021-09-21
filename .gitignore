@@ -6,3 +6,6 @@ saved*
 
 # ignore deprecated
 deprecated
+
+# ignore figs
+figs

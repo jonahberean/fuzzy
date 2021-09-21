@@ -2,11 +2,12 @@ function K = couplingmatrixsymbolic(N)
 
 filename = ['savedCouplingMatrix/', num2str(N), '.mat'];
 
-% if isfile(filename)
-%     M = load(filename);
-%     K = M.K;
-% else
-
+if isfile(filename)
+    fprintf(['Loading ', filename, '\n'])
+    M = load(filename);
+    K = M.K;
+else
+    fprintf(['Generating ', filename, '\n'])
     % returns the three su(2) generators in the N-dim. irreducible rep. 
     [J1, J2, J3, ~, ~] = computeSu2(N);
 

@@ -1,4 +1,4 @@
-function [varZ, Z, localStateVectors] = getLocalStatesConOpt(N, xi, xi2, heightGridSize, overwriteFlag, filelabel)
+function [varZ, Z, localStateVectors, filename] = getLocalStatesConOpt(N, xi, xi2, heightGridSize, overwriteFlag, filelabel)
 
 %region
 %{
@@ -8,14 +8,15 @@ throughout Z.
 %endregion - doc
 
 % Checks to see if the file exists, will make if not
-filename = ['savedLocalStatesConOpt/',num2str(N), '_heightGridSize', num2str(heightGridSize), '_', filelabel,'.mat'];
-if (isfile(filename) & ~overwriteFlag)
+filename = ['savedLocalStatesConOpt/',num2str(N), '_heightGridSize_', num2str(heightGridSize), '_', filelabel];
+if (isfile([filename,'.mat']) & ~overwriteFlag)
+    fprintf(['Loading ', filename, '\n'])
     M                 = load(filename);
     varZ              = M.varZ;
     Z                 = M.Z;
     localStateVectors = M.localStateVectors;
 else
-        
+    fprintf(['Generating ', filename, '\n'])
     heightGrid = linspace(0.01, max(eig(xi)), heightGridSize);
     % heightGrid = linspace(0.18, 0.22, heightGridSize);
     heightGridSpacing = heightGrid(2) - heightGrid(1);
@@ -77,7 +78,7 @@ else
     end
 
     % save the results    
-    save(filename,'varZ', 'Z', 'localStateVectors');
+    save([filename,'.mat'],'varZ', 'Z', 'localStateVectors');
 
 end
 

@@ -1,4 +1,4 @@
-function A = getScalarProjectionMatrix(N, J1, J2, J3)
+function A = getScalarProjectionMatrix(N)
 
 filename = ['savedScalarProjectionMatrix/', num2str(N), '.mat'];
 if isfile(filename)

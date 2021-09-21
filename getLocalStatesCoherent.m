@@ -1,14 +1,16 @@
-function [varZ, Z, localStateVectors] = getLocalStatesCoherent(N, projectionMatrix, xi, xi2, heightGridSize, numVectorsPerHeight, overwriteFlag, filelabel)
-    
-
+function [varZ, Z, localStateVectors] = ...
+    getLocalStatesCoherent(N, projectionMatrix, xi, xi2, heightGridSize, numVectorsPerHeight, overwriteFlag, filelabel)
 
 % Checks to see if the file exists, will make if not
 filename = ['savedLocalStatesCoherent/',num2str(N), '_heightGrigSize_', num2str(heightGridSize), '_numVectorsPerHeight', num2str(numVectorsPerHeight), '_', filelabel,'.mat'];
+
 if (isfile(filename) & ~overwriteFlag)
+
     M                 = load(filename);
     varZ              = M.varZ;
     Z                 = M.Z;
     localStateVectors = M.localStateVectors;
+
 else
             
     % Returns the L3 generator of su(2)
@@ -36,7 +38,7 @@ else
     % Iterates over the number of angles at which we'd like to perform the computation
     for i = 1:heightGridSize
 
-        fprintf('Working with height %d of %d\n', i, heightGridSize)
+        fprintf('Height %d of %d\n', i, heightGridSize)
 
         % Sets angle value
         beta = listOfAngles(i);
@@ -52,6 +54,8 @@ else
 
         % Iterates over the coefficients we generated randomly earlier
         for ii = 1:numVectorsPerHeight       
+
+            fprintf('Vector %d of %d\n', ii, numVectorsPerHeight)
 
             c = listOfCoefficients(ii,:);
 
